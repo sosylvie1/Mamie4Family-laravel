@@ -1,12 +1,10 @@
 {{-- resources/views/navigation.blade.php ne pas l 'utiliser' --}}
-<nav x-data="{ open: false }"
-     class="bg-caramel border-b border-caramel-pastel"
-     role="navigation"
-     aria-label="Navigation principale">
+<nav x-data="{ open: false }" class="bg-caramel border-b border-caramel-pastel" role="navigation"
+    aria-label="Navigation principale">
 
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex justify-between h-16">
-            
+
             {{-- LOGO / NOM DU SITE --}}
             <div class="flex">
                 <div class="shrink-0 flex items-center">
@@ -18,32 +16,38 @@
                 {{-- MENU LINKS (desktop) --}}
                 <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
                     {{-- Liens publics --}}
-                    <x-nav-link href="{{ route('welcome') }}" :active="request()->routeIs('welcome')" class="text-marron-fonce hover:text-caramel-fonce">
+                    <x-nav-link href="{{ route('welcome') }}" :active="request()->routeIs('welcome')"
+                        class="text-marron-fonce hover:text-caramel-fonce">
                         🏠 Accueil
                     </x-nav-link>
 
-                    <x-nav-link href="{{ route('mamies.index') }}" :active="request()->routeIs('mamies.*')" class="text-marron-fonce hover:text-caramel-fonce">
-                        🧓 Catalogue Mamies
+                    <x-nav-link href="{{ route('mamies.index') }}" :active="request()->routeIs('mamies.*')"
+                        class="text-marron-fonce hover:text-caramel-fonce">
+                        🧓 Catalogue mamies
                     </x-nav-link>
 
-                    
 
-                    <x-nav-link href="{{ route('contact') }}" :active="request()->routeIs('contact')" class="text-marron-fonce hover:text-caramel-fonce">
-                        ✉️ Contact
+
+                    <x-nav-link href="{{ route('contact') }}" :active="request()->routeIs('contact')"
+                        class="text-marron-fonce hover:text-caramel-fonce">
+                        ✉️ Contactez-nous
                     </x-nav-link>
 
                     {{-- Menu selon rôle (si connecté) --}}
                     @auth
-                        @if(auth()->user()->isAdmin())
-                            <x-nav-link href="{{ route('admin.dashboard') }}" :active="request()->routeIs('admin.*')" class="text-marron-fonce hover:text-caramel-fonce">
+                        @if (auth()->user()->isAdmin())
+                            <x-nav-link href="{{ route('admin.dashboard') }}" :active="request()->routeIs('admin.*')"
+                                class="text-marron-fonce hover:text-caramel-fonce">
                                 🛠 Admin
                             </x-nav-link>
                         @elseif(auth()->user()->isFamille())
-                            <x-nav-link href="{{ route('famille.dashboard') }}" :active="request()->routeIs('famille.*')" class="text-marron-fonce hover:text-caramel-fonce">
+                            <x-nav-link href="{{ route('famille.dashboard') }}" :active="request()->routeIs('famille.*')"
+                                class="text-marron-fonce hover:text-caramel-fonce">
                                 👨‍👩‍👧 Espace Famille
                             </x-nav-link>
                         @elseif(auth()->user()->isMamie())
-                            <x-nav-link href="{{ route('mamie.dashboard') }}" :active="request()->routeIs('mamie.*')" class="text-marron-fonce hover:text-caramel-fonce">
+                            <x-nav-link href="{{ route('mamie.dashboard') }}" :active="request()->routeIs('mamie.*')"
+                                class="text-marron-fonce hover:text-caramel-fonce">
                                 👵 Espace Mamie
                             </x-nav-link>
                         @endif
@@ -61,8 +65,8 @@
                         </button>
                     </form>
                 @else
-                    <a href="{{ route('login') }}" 
-                       class="text-marron-fonce hover:text-caramel-fonce px-3 py-2 rounded-md text-sm font-medium">
+                    <a href="{{ route('login') }}"
+                        class="text-marron-fonce hover:text-caramel-fonce px-3 py-2 rounded-md text-sm font-medium">
                         🔑 Connexion
                     </a>
                 @endauth
@@ -71,16 +75,15 @@
             {{-- MENU BURGER (mobile) --}}
             <div class="-mr-2 flex items-center sm:hidden">
                 <button @click="open = !open" type="button"
-                        class="inline-flex items-center justify-center p-2 rounded-md text-marron-fonce hover:text-caramel-fonce hover:bg-caramel-pastel focus:outline-none focus:ring-2 focus:ring-sauge"
-                        aria-controls="mobile-menu" aria-expanded="false">
+                    class="inline-flex items-center justify-center p-2 rounded-md text-marron-fonce hover:text-caramel-fonce hover:bg-caramel-pastel focus:outline-none focus:ring-2 focus:ring-sauge"
+                    aria-controls="mobile-menu" aria-expanded="false">
                     <span class="sr-only">Ouvrir le menu</span>
                     <svg class="h-6 w-6" stroke="currentColor" fill="none" viewBox="0 0 24 24">
                         <path :class="{ 'hidden': open, 'inline-flex': !open }" class="inline-flex"
-                              stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                              d="M4 6h16M4 12h16M4 18h16"/>
-                        <path :class="{ 'hidden': !open, 'inline-flex': open }" class="hidden"
-                              stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                              d="M6 18L18 6M6 6l12 12"/>
+                            stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M4 6h16M4 12h16M4 18h16" />
+                        <path :class="{ 'hidden': !open, 'inline-flex': open }" class="hidden" stroke-linecap="round"
+                            stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
                     </svg>
                 </button>
             </div>
@@ -93,16 +96,19 @@
 
             {{-- Liens publics mobile --}}
             <x-responsive-nav-link href="{{ route('welcome') }}" :active="request()->routeIs('welcome')">🏠 Accueil</x-responsive-nav-link>
-            <x-responsive-nav-link href="{{ route('mamies.index') }}" :active="request()->routeIs('mamies.*')">🧓 Catalogue Mamies</x-responsive-nav-link>
-            
-            <x-responsive-nav-link href="{{ route('contact') }}" :active="request()->routeIs('contact')">✉️ Contact</x-responsive-nav-link>
+            <x-responsive-nav-link href="{{ route('mamies.index') }}" :active="request()->routeIs('mamies.*')">🧓 Catalogue
+                mamies</x-responsive-nav-link>
+
+            <x-responsive-nav-link href="{{ route('contact') }}" :active="request()->routeIs('contact')">✉️ Contactez-nous
+            </x-responsive-nav-link>
 
             {{-- Liens selon rôle --}}
             @auth
-                @if(auth()->user()->isAdmin())
+                @if (auth()->user()->isAdmin())
                     <x-responsive-nav-link href="{{ route('admin.dashboard') }}">🛠 Admin</x-responsive-nav-link>
                 @elseif(auth()->user()->isFamille())
-                    <x-responsive-nav-link href="{{ route('famille.dashboard') }}">👨‍👩‍👧 Espace Famille</x-responsive-nav-link>
+                    <x-responsive-nav-link href="{{ route('famille.dashboard') }}">👨‍👩‍👧 Espace
+                        Famille</x-responsive-nav-link>
                 @elseif(auth()->user()->isMamie())
                     <x-responsive-nav-link href="{{ route('mamie.dashboard') }}">👵 Espace Mamie</x-responsive-nav-link>
                 @endif

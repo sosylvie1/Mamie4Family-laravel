@@ -90,13 +90,13 @@
                 🏠 Accueil
             </x-responsive-nav-link>
             <x-responsive-nav-link href="{{ route('mamies.index') }}" :active="request()->routeIs('mamies.*')">
-                🧓 Catalogue Mamies
+                🧓 Catalogue Mamies 
             </x-responsive-nav-link>
             {{-- <x-responsive-nav-link href="{{ route('publicites.create') }}" :active="request()->routeIs('publicites.*')">
                 📢 Publier
             </x-responsive-nav-link> --}}
             <x-responsive-nav-link href="{{ route('contact') }}" :active="request()->routeIs('contact')">
-                ✉️ Contact
+                ✉️ Contactez nous
             </x-responsive-nav-link>
 
             {{-- Menu selon rôle --}}

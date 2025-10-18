@@ -24,7 +24,7 @@
 
                 <a href="{{ route('famille.mamies.index') }}" 
                    class="hover:text-yellow-200 focus:ring-2 focus:ring-offset-2 focus:ring-yellow-300 px-2 py-1 rounded">
-                    👵 Trouver une Mamie
+                    👵 Trouver une mamie
                 </a>
 
                 <a href="{{ route('famille.messages.index') }}" 
@@ -58,7 +58,7 @@
     <div id="mobile-menu" class="hidden md:hidden bg-caramel-light px-4 pb-3 space-y-2">
         <a href="{{ route('famille.dashboard') }}" class="block py-2 hover:text-yellow-200">🏠 Tableau de bord</a>
         <a href="{{ route('famille.profile.show') }}" class="block py-2 hover:text-yellow-200">👤 Mon profil</a>
-        <a href="{{ route('famille.mamies.index') }}" class="block py-2 hover:text-yellow-200">👵 Trouver une Mamie</a>
+        <a href="{{ route('famille.mamies.index') }}" class="block py-2 hover:text-yellow-200">👵 Trouver une mamie</a>
         <a href="{{ route('famille.messages.index') }}" class="block py-2 hover:text-yellow-200">💬 Messages</a>
 
         <form method="POST" action="{{ route('logout') }}">

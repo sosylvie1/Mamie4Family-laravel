@@ -38,8 +38,27 @@
             <li><strong>🏘 Arrondissement :</strong> {{ $famille->familleProfile->arrondissement ?? 'Non renseigné' }}</li>
             <li><strong>🏞 Département :</strong> {{ $famille->familleProfile->departement ?? 'Non renseigné' }}</li>
             <li><strong>📞 Téléphone :</strong> {{ $famille->familleProfile->telephone ?? 'Non renseigné' }}</li>
-            <li><strong>👶 Nombre d’enfants :</strong> {{ $famille->familleProfile->nombre_enfants ?? 'Non renseigné' }}</li>
-            <li><strong>📋 Détails enfants :</strong> {{ $famille->familleProfile->enfants ?? 'Non renseignés' }}</li>
+            
+    {{-- Enfants --}}
+<div class="mt-4">
+    <strong>👶 Enfants :</strong>
+
+    @if($famille->familleProfile && $famille->familleProfile->enfants && $famille->familleProfile->enfants->count() > 0)
+        <div class="flex flex-wrap gap-2 mt-2">
+            @foreach($famille->familleProfile->enfants as $enfant)
+                <span class="bg-caramel-pastel text-marron-fonce px-3 py-1 rounded-full text-sm shadow-sm">
+                    {{ $enfant->nom }} ({{ $enfant->age }} ans)
+                </span>
+            @endforeach
+        </div>
+    @else
+        <p class="text-gray-500">Aucun enfant renseigné.</p>
+    @endif
+</div>
+
+
+
+
         </ul>
 
         {{-- 🕒 Infos de suivi optionnelles --}}

@@ -11,24 +11,24 @@ class FamilleProfile extends Model
 
     /*
     |--------------------------------------------------------------------------
-    | Colonnes assignables en masse
+    | 🔸 Colonnes assignables
     |--------------------------------------------------------------------------
     */
     protected $fillable = [
         'user_id',
         'adresse',
+        'departement',
         'ville',
         'arrondissement',
-        'departement',
         'telephone',
-        'nombre_enfants',
-        'enfants',
         'photo',
+        'code_postal',
+        'nombre_enfants',
     ];
 
     /*
     |--------------------------------------------------------------------------
-    | Relations
+    | 🔹 Relations
     |--------------------------------------------------------------------------
     */
     public function user()
@@ -36,9 +36,15 @@ class FamilleProfile extends Model
         return $this->belongsTo(User::class);
     }
 
+    public function enfants()
+    {
+        // ✅ clé étrangère explicite (important pour éviter les décalages)
+        return $this->hasMany(Enfant::class, 'famille_profile_id', 'id');
+    }
+
     /*
     |--------------------------------------------------------------------------
-    | Accessors
+    | 🔸 Accessors / Helpers
     |--------------------------------------------------------------------------
     */
     public function getPhotoUrlAttribute()
@@ -46,5 +52,15 @@ class FamilleProfile extends Model
         return $this->photo
             ? asset('storage/' . $this->photo)
             : asset('images/default-famille.png');
+    }
+
+    /*
+    |--------------------------------------------------------------------------
+    | 🔸 Méthode pratique pour compter les enfants
+    |--------------------------------------------------------------------------
+    */
+    public function nombreEnfants()
+    {
+        return $this->enfants()->count();
     }
 }

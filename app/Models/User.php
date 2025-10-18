@@ -24,7 +24,7 @@ class User extends Authenticatable
 
     /*
     |--------------------------------------------------------------------------
-    | Attributs assignables en masse
+    | Mass assignable attributes
     |--------------------------------------------------------------------------
     */
     protected $fillable = [
@@ -36,7 +36,7 @@ class User extends Authenticatable
 
     /*
     |--------------------------------------------------------------------------
-    | Attributs masqués
+    | Hidden attributes
     |--------------------------------------------------------------------------
     */
     protected $hidden = [
@@ -48,7 +48,7 @@ class User extends Authenticatable
 
     /*
     |--------------------------------------------------------------------------
-    | Accessors calculés
+    | Accessors / Appended attributes
     |--------------------------------------------------------------------------
     */
     protected $appends = [
@@ -57,7 +57,7 @@ class User extends Authenticatable
 
     /*
     |--------------------------------------------------------------------------
-    | Casting des colonnes
+    | Attribute casting
     |--------------------------------------------------------------------------
     */
     protected function casts(): array
@@ -70,7 +70,7 @@ class User extends Authenticatable
 
     /*
     |--------------------------------------------------------------------------
-    | Méthodes helpers pour les rôles
+    | Role helper methods
     |--------------------------------------------------------------------------
     */
     public function isAdmin(): bool
@@ -90,35 +90,47 @@ class User extends Authenticatable
 
     /*
     |--------------------------------------------------------------------------
-    | Relations
+    | Relationships
     |--------------------------------------------------------------------------
     */
 
     /**
-     * Relation One-to-One avec le profil Famille.
+     * One-to-One relationship with AdminProfile
+     */
+    public function adminProfile()
+    {
+        return $this->hasOne(AdminProfile::class, 'user_id');
+    }
+
+    /**
+     * One-to-One relationship with FamilleProfile
      */
     public function familleProfile()
     {
-        return $this->hasOne(FamilleProfile::class);
+        return $this->hasOne(FamilleProfile::class, 'user_id');
     }
 
     /**
-     * Relation One-to-One avec le profil Mamie.
+     * One-to-One relationship with MamieProfile
      */
     public function mamieProfile()
     {
-        return $this->hasOne(MamieProfile::class);
+        return $this->hasOne(MamieProfile::class, 'user_id');
     }
 
     /**
-     * Relation MESSAGES.
+     * One-to-Many relationship with sent messages
      */
-    public function sentMessages() {
-    return $this->hasMany(Message::class, 'sender_id');
-}
+    public function sentMessages()
+    {
+        return $this->hasMany(Message::class, 'sender_id');
+    }
 
-public function receivedMessages() {
-    return $this->hasMany(Message::class, 'receiver_id');
-}
-
+    /**
+     * One-to-Many relationship with received messages
+     */
+    public function receivedMessages()
+    {
+        return $this->hasMany(Message::class, 'receiver_id');
+    }
 }

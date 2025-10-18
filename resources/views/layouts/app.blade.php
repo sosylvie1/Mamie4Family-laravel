@@ -1,54 +1,57 @@
+{{-- resources/views/layouts/app.blade.php --}}
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
-
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    {{-- Titre avec intitulé exact du site --}}
-    <title>{{ config('app.name', 'Mamie4Family — Annuaire relationnel entre familles et mamies') }}</title>
+    {{-- 🔎 SEO --}}
+    <title>@yield('title', 'Mamie4Family — Annuaire relationnel entre familles et mamies')</title>
+    <meta name="description" content="@yield('description', 'Trouvez une mamie ou une famille de confiance grâce à Mamie4Family, le réseau bienveillant de proximité.')">
 
-
-    <!-- Scripts -->
+    @if (app()->environment('local'))
+    {{-- 💻 Environnement local : Vite --}}
     @vite(['resources/css/app.css', 'resources/js/app.js'])
+@else
+    {{-- 🌐 Environnement production : fichiers statiques (PlanetHoster) --}}
+    <link rel="stylesheet" href="{{ secure_asset('css/app.css') }}">
+    <script src="{{ secure_asset('js/app.js') }}"></script>
+@endif
 
-    <!-- Styles -->
-    @livewireStyles
 </head>
 
-<body class="font-sans antialiased bg-sable text-marron-fonce">
-    <x-banner />
+<body class="font-sans antialiased bg-sable text-marron-fonce min-h-screen flex flex-col">
 
-    <div class="min-h-screen bg-sable">
-        {{-- Navigation principale (Livewire Jetstream) --}}
-        <nav class="bg-caramel shadow-md" role="navigation" aria-label="Navigation principale">
-            @livewire('navigation-menu')
-        </nav>
+    {{-- ===== BARRE DE NAVIGATION UNIVERSELLE ===== --}}
+    @include('partials.universal-nav')
 
-        <!-- Page Heading -->
-        @if (isset($header))
-            <header class="bg-caramel-pastel shadow">
-                <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8 text-marron-fonce">
-                    {{ $header }}
-                </div>
-            </header>
-        @endif
+    {{-- ===== EN-TÊTE DE PAGE OPTIONNEL ===== --}}
+    @hasSection('header')
+        <header class="bg-caramel-pastel shadow" role="banner">
+            <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8 text-marron-fonce">
+                @yield('header')
+            </div>
+        </header>
+    @endif
 
-        <!-- Page Content je n'utilisa pas Jetstream/Livewire pour mes vues-->
-        <main role="main" class="py-6">
+    {{-- ===== CONTENU PRINCIPAL ===== --}}
+    <main role="main" class="flex-1 py-6 px-4 sm:px-6 lg:px-8">
         @yield('content')
     </main>
-    </div>
 
-    {{-- Modals --}}
-    @stack('modals')
+    {{-- ===== PIED DE PAGE GLOBAL ===== --}}
+    <footer class="bg-caramel text-white py-4 text-center border-t border-caramel-pastel">
+        <p class="text-sm">
+            © {{ date('Y') }} Mamie4Family — Tous droits réservés
+        </p>
+        <p class="text-xs mt-1">
+            <a href="{{ route('cgu') }}" class="hover:underline focus-visible:ring-2 focus-visible:ring-yellow-400">CGU</a> ·
+            <a href="{{ route('confidentialite') }}" class="hover:underline focus-visible:ring-2 focus-visible:ring-yellow-400">Confidentialité</a> ·
+            <a href="{{ route('plan-du-site') }}" class="hover:underline focus-visible:ring-2 focus-visible:ring-yellow-400">Plan du site</a>
+        </p>
+    </footer>
 
-    @livewireScripts
-
-    {{-- FOOTER global --}}
-    <x-footer />
-
+    {{-- ✅ Scripts locaux (aucun CDN, aucun framework bloquant) --}}
+    <script src="{{ secure_asset('js/app.js') }}"></script>
 </body>
-
 </html>

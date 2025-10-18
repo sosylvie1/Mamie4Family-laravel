@@ -10,14 +10,13 @@ use Illuminate\Support\Facades\Auth;
 class FamilleController extends Controller
 {
     /**
-     * 🧭 Liste des familles ayant contacté la mamie connectée
-     * + possibilité de filtrer (ville, département, enfants)
+     * 👨‍👩‍👧 Liste des familles ayant contacté la mamie connectée
      */
     public function index(Request $request)
     {
         $mamie = Auth::user();
 
-        // 🔎 On récupère uniquement les familles qui ont envoyé un message à la mamie
+        // ✅ On récupère uniquement les familles qui ont envoyé un message à cette mamie
         $query = User::where('role', 'famille')
             ->whereIn('id', function ($subQuery) use ($mamie) {
                 $subQuery->select('sender_id')
@@ -26,13 +25,12 @@ class FamilleController extends Controller
             })
             ->with('familleProfile');
 
-        // 🔍 Recherche (facultative)
+        // 🔍 Recherche optionnelle
         if ($request->filled('q')) {
             $q = $request->input('q');
             $query->whereHas('familleProfile', function ($sub) use ($q) {
                 $sub->where('adresse', 'like', "%{$q}%")
                     ->orWhere('departement', 'like', "%{$q}%")
-                    ->orWhere('ville', 'like', "%{$q}%")
                     ->orWhere('details_enfants', 'like', "%{$q}%");
             });
         }
@@ -43,13 +41,21 @@ class FamilleController extends Controller
     }
 
     /**
-     * 👁️ Afficher le profil d’une famille précise
+     * 👀 Afficher une famille uniquement si elle a contacté la mamie
      */
     public function show($id)
     {
+        $mamie = Auth::user();
+
         $famille = User::where('role', 'famille')
-            ->with('familleProfile')
-            ->findOrFail($id);
+            ->where('id', $id)
+            ->whereIn('id', function ($subQuery) use ($mamie) {
+                $subQuery->select('sender_id')
+                    ->from('messages')
+                    ->where('receiver_id', $mamie->id);
+            })
+            ->with(['familleProfile.enfants'])
+            ->firstOrFail();
 
         return view('mamie.familles.show', compact('famille'));
     }

@@ -1,115 +1,145 @@
 @extends('layouts.app')
 
 @section('title', 'Inscription Famille | Mamie4Family')
-@section('description', 'Créez votre compte Famille pour trouver une mamie disponible.')
+@section('description', 'Créez votre compte famille pour contacter nos mamies disponibles près de chez vous.')
 
 @section('content')
-    <main role="main" class="max-w-2xl mx-auto mt-10 bg-white p-6 rounded shadow">
-        <h1 class="text-2xl font-bold mb-6">👨‍👩‍👧 Inscription Famille</h1>
+<main role="main" aria-labelledby="page-title" class="max-w-2xl mx-auto my-12 p-6 bg-white rounded-2xl shadow">
+    <h1 id="page-title" class="text-2xl font-bold text-center text-marron-fonce mb-6">
+        👨‍👩‍👧 Inscription Famille
+    </h1>
 
-        <form method="POST" action="{{ route('register') }}">
-            @csrf
+    <form method="POST" action="{{ route('register.famille.store') }}" enctype="multipart/form-data" class="space-y-4">
+        @csrf
 
-            {{-- Nom --}}
-            <div class="mb-4">
-                <label for="name" class="block text-sm font-medium text-gray-700">Nom</label>
-                <input id="name" name="name" type="text" value="{{ old('name') }}" required
-                    class="mt-1 block w-full border-gray-300 rounded-md shadow-sm">
-                @error('name')
-                    <span class="text-red-600 text-sm">{{ $message }}</span>
-                @enderror
+        {{-- Nom --}}
+        <div>
+            <label for="name" class="block text-sm font-medium text-gray-700">Nom complet</label>
+            <input id="name" type="text" name="name" value="{{ old('name') }}" required autofocus
+                class="mt-1 block w-full border-gray-300 rounded-md focus:ring-caramel focus:border-caramel">
+            @error('name') <p class="text-red-600 text-sm mt-1">{{ $message }}</p> @enderror
+        </div>
 
-            </div>
+        {{-- Email --}}
+        <div>
+            <label for="email" class="block text-sm font-medium text-gray-700">Adresse email</label>
+            <input id="email" type="email" name="email" value="{{ old('email') }}" required
+                class="mt-1 block w-full border-gray-300 rounded-md focus:ring-caramel focus:border-caramel">
+            @error('email') <p class="text-red-600 text-sm mt-1">{{ $message }}</p> @enderror
+        </div>
 
-            {{-- Email --}}
-            <div class="mb-4">
-                <label for="email" class="block text-sm font-medium text-gray-700">Email</label>
-                <input id="email" name="email" type="email" value="{{ old('email') }}" required
-                    class="mt-1 block w-full border-gray-300 rounded-md shadow-sm">
-                @error('email')
-                    <span class="text-red-600 text-sm">{{ $message }}</span>
-                @enderror
-            </div>
+        {{-- Mot de passe --}}
+        <div>
+            <label for="password" class="block text-sm font-medium text-gray-700">Mot de passe</label>
+            <input id="password" type="password" name="password" required
+                class="mt-1 block w-full border-gray-300 rounded-md focus:ring-caramel focus:border-caramel">
+            @error('password') <p class="text-red-600 text-sm mt-1">{{ $message }}</p> @enderror
+        </div>
 
-            {{-- Mot de passe --}}
-            <div class="mb-4">
-                <label for="password" class="block text-sm font-medium text-gray-700">Mot de passe</label>
-                <input id="password" name="password" type="password" required
-                    class="mt-1 block w-full border-gray-300 rounded-md shadow-sm">
-                @error('password')
-                    <span class="text-red-600 text-sm">{{ $message }}</span>
-                @enderror
-            </div>
+        {{-- Confirmation --}}
+        <div>
+            <label for="password_confirmation" class="block text-sm font-medium text-gray-700">Confirmer le mot de passe</label>
+            <input id="password_confirmation" type="password" name="password_confirmation" required
+                class="mt-1 block w-full border-gray-300 rounded-md focus:ring-caramel focus:border-caramel">
+        </div>
 
-            {{-- Confirmation mot de passe --}}
-            <div class="mb-4">
-                <label for="password_confirmation" class="block text-sm font-medium text-gray-700">Confirmer le mot de
-                    passe</label>
-                <input id="password_confirmation" name="password_confirmation" type="password" required
-                    class="mt-1 block w-full border-gray-300 rounded-md shadow-sm">
-            </div>
-            {{--  adrresse --}}
-            <div class="mt-4">
-                <label for="adresse" class="block text-sm font-medium text-gray-700">Adresse</label>
-                <input id="adresse" name="adresse" type="text" value="{{ old('adresse') }}" required
-                    autocomplete="street-address"
-                    class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:ring-caramel focus:border-caramel">
-            </div>
+        {{-- Adresse --}}
+        <div>
+            <label for="adresse" class="block text-sm font-medium text-gray-700">Adresse</label>
+            <input id="adresse" type="text" name="adresse" value="{{ old('adresse') }}" required
+                class="mt-1 block w-full border-gray-300 rounded-md focus:ring-caramel focus:border-caramel">
+        </div>
 
-            <div class="mt-4 grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div>
-                    <label for="ville" class="block text-sm font-medium text-gray-700">Ville</label>
-                    <input id="ville" name="ville" type="text" value="{{ old('ville') }}" required
-                        autocomplete="address-level2"
-                        class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:ring-caramel focus:border-caramel">
+        {{-- Ville --}}
+        <div>
+            <label for="ville" class="block text-sm font-medium text-gray-700">Ville</label>
+            <input id="ville" type="text" name="ville" value="{{ old('ville') }}" required
+                class="mt-1 block w-full border-gray-300 rounded-md focus:ring-caramel focus:border-caramel">
+        </div>
+
+        {{-- Département --}}
+        <div>
+            <label for="departement" class="block text-sm font-medium text-gray-700">Département</label>
+            <input id="departement" type="text" name="departement" value="{{ old('departement') }}" required
+                class="mt-1 block w-full border-gray-300 rounded-md focus:ring-caramel focus:border-caramel">
+        </div>
+
+        {{-- Arrondissement --}}
+        <div>
+            <label for="arrondissement" class="block text-sm font-medium text-gray-700">Arrondissement (facultatif)</label>
+            <input id="arrondissement" type="text" name="arrondissement" value="{{ old('arrondissement') }}"
+                class="mt-1 block w-full border-gray-300 rounded-md focus:ring-caramel focus:border-caramel">
+        </div>
+
+        {{-- Téléphone --}}
+        <div>
+            <label for="telephone" class="block text-sm font-medium text-gray-700">Téléphone (facultatif)</label>
+            <input id="telephone" type="text" name="telephone" value="{{ old('telephone') }}"
+                class="mt-1 block w-full border-gray-300 rounded-md focus:ring-caramel focus:border-caramel">
+        </div>
+
+        {{-- Nombre d'enfants --}}
+        <div>
+            <label for="nombre_enfants" class="block text-sm font-medium text-gray-700">Nombre d’enfants</label>
+            <input id="nombre_enfants" type="number" name="nombre_enfants" min="0" value="{{ old('nombre_enfants') }}"
+                class="mt-1 block w-full border-gray-300 rounded-md focus:ring-caramel focus:border-caramel">
+        </div>
+
+        {{-- Photo --}}
+        <div>
+            <label for="photo" class="block text-sm font-medium text-gray-700">Photo (facultatif)</label>
+            <input id="photo" type="file" name="photo" accept="image/*"
+                class="mt-1 block w-full text-sm border-gray-300 rounded-md focus:ring-caramel focus:border-caramel">
+        </div>
+
+        {{-- Liste des enfants --}}
+        <fieldset class="mt-6 border-t border-gray-300 pt-4">
+            <legend class="text-lg font-semibold text-marron-fonce">👧 Informations sur vos enfants</legend>
+            <div id="children-fields" class="mt-3 space-y-3">
+                <div class="child-item">
+                    <label class="block text-sm text-gray-700">Nom de l’enfant</label>
+                    <input type="text" name="enfants[0][nom]" class="w-full border-gray-300 rounded-md focus:ring-caramel focus:border-caramel">
+
+                    <label class="block text-sm text-gray-700 mt-2">Âge</label>
+                    <input type="number" name="enfants[0][age]" class="w-full border-gray-300 rounded-md focus:ring-caramel focus:border-caramel">
                 </div>
-                <div>
-                    <label for="arrondissement" class="block text-sm font-medium text-gray-700">Arrondissement</label>
-                    <input id="arrondissement" name="arrondissement" type="text" value="{{ old('arrondissement') }}"
-                        autocomplete="address-level3"
-                        class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:ring-caramel focus:border-caramel">
-                </div>
             </div>
 
-            <div class="mt-4">
-                <label for="departement" class="block text-sm font-medium text-gray-700">Département</label>
-                <input id="departement" name="departement" type="text" value="{{ old('departement') }}" required
-                    autocomplete="address-level1"
-                    class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:ring-caramel focus:border-caramel">
-            </div>
-
-            {{-- Téléphone --}}
-            <div class="mb-4">
-                <label for="telephone" class="block text-sm font-medium text-gray-700">Téléphone</label>
-                <input id="telephone" name="telephone" type="text" value="{{ old('telephone') }}"
-                    class="mt-1 block w-full border-gray-300 rounded-md shadow-sm">
-            </div>
-
-            {{-- Nombre d’enfants --}}
-            <div class="mb-4">
-                <label for="nombre_enfants" class="block text-sm font-medium text-gray-700">Nombre d’enfants</label>
-                <input id="nombre_enfants" name="nombre_enfants" type="number" min="0"
-                    value="{{ old('nombre_enfants', 0) }}" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm">
-            </div>
-
-            {{-- Prénoms des enfants --}}
-            <div class="mb-4">
-                <label for="enfants" class="block text-sm font-medium text-gray-700">Prénoms des enfants</label>
-                <input id="enfants" name="enfants" type="text" value="{{ old('enfants') }}"
-                    class="mt-1 block w-full border-gray-300 rounded-md shadow-sm">
-                <div>
-                    <label for="photo" class="block text-sm font-medium">Photo de profil</label>
-                    <input type="file" name="photo" id="photo" class="mt-1 block w-full border rounded">
-                </div>
-            </div>
-
-            {{-- Rôle caché --}}
-            <input type="hidden" name="role" value="famille">
-
-            {{-- Bouton --}}
-            <button type="submit" class="w-full py-2 px-4 bg-pink-600 text-white rounded hover:bg-pink-700">
-                Créer mon compte Famille
+            <button type="button" id="add-child"
+                class="mt-3 bg-caramel text-white px-3 py-1 rounded hover:bg-caramel-pastel focus:ring-2 focus:ring-caramel">
+                ➕ Ajouter un enfant
             </button>
-        </form>
-    </main>
+        </fieldset>
+
+        {{-- Bouton d'inscription --}}
+        <div class="pt-4">
+            <button type="submit"
+                class="w-full bg-caramel text-white py-2 px-4 rounded-md hover:bg-caramel-pastel focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-caramel">
+                🧾 Créer mon compte Famille
+            </button>
+        </div>
+    </form>
+
+    <p class="text-center text-sm text-gray-600 mt-4">
+        Déjà inscrit ? <a href="{{ route('login') }}" class="text-caramel hover:underline">Se connecter</a>
+    </p>
+</main>
+
+{{-- Script dynamique enfants --}}
+<script>
+document.getElementById('add-child').addEventListener('click', function() {
+    const container = document.getElementById('children-fields');
+    const index = container.children.length;
+    const div = document.createElement('div');
+    div.classList.add('child-item');
+    div.innerHTML = `
+        <hr class="my-3 border-gray-200">
+        <label class="block text-sm text-gray-700">Nom de l’enfant</label>
+        <input type="text" name="enfants[${index}][nom]" class="w-full border-gray-300 rounded-md focus:ring-caramel focus:border-caramel">
+        <label class="block text-sm text-gray-700 mt-2">Âge</label>
+        <input type="number" name="enfants[${index}][age]" class="w-full border-gray-300 rounded-md focus:ring-caramel focus:border-caramel">
+    `;
+    container.appendChild(div);
+});
+</script>
 @endsection
